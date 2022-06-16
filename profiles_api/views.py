@@ -6,7 +6,9 @@ from rest_framework import viewsets
 from .models import UserProfile
 from .serializers import UserProfileSerializer
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 from .permissions import UpdateOwnProfile
+
 
 class HelloApiView(APIView):
     """Test API View"""
@@ -108,3 +110,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     authentication_classes = (TokenAuthentication, )
     permission_classes = (UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)  # Add filter to search in db
+    search_fields = ('name', 'email',) # Add fields to search in db
